@@ -1,5 +1,5 @@
 # main.py
-from fastapi import FastAPI, status, HTTPException
+from fastapi import FastAPI, status, HTTPException, Depends
 from database import Base, engine
 from sqlalchemy.orm import Session
 import models
@@ -12,12 +12,20 @@ Base.metadata.create_all(engine)
 # Initialize app
 app = FastAPI()
 
+# Helper function to get database session
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
 @app.get("/")
 async def root():
     return "Hello World"
 
 @app.post("/todo", response_model=schemas.ToDo, status_code=status.HTTP_201_CREATED)
-def create_todo(todo : schemas.ToDoCreate):
+def create_todo(todo : schemas.ToDoCreate, session: Session = Depends(get_session)):
     # create a new database session
     session = Session(bind=engine, expire_on_commit=False)
 
@@ -104,3 +112,5 @@ def read_todo_list():
     session.close()
 
     return todo_list
+
+
