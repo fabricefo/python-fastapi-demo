@@ -7,11 +7,12 @@ Follow this article : https://www.gormanalysis.com/blog/building-a-simple-crud-a
 
 > pip install virtualenv
 
-
 > python -m venv ./venv
+
 > ./venv/Scripts/activate
 
 > pip install fastapi
+
 > pip install sqlalchemy
 
 # Start fastApi (On windows) 
