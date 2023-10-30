@@ -5,15 +5,15 @@ Follow this article : https://www.gormanalysis.com/blog/building-a-simple-crud-a
 
 # Setup (On windows) 
 
-pip install virtualenv
+> pip install virtualenv
 
 
 > python -m venv ./venv
 > ./venv/Scripts/activate
 
-pip install fastapi
-pip install sqlalchemy
+> pip install fastapi
+> pip install sqlalchemy
 
 # Start fastApi (On windows) 
 
-python3 -m uvicorn main:app
+> python3 -m uvicorn main:app
