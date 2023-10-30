@@ -4,6 +4,7 @@ from database import Base, engine
 from sqlalchemy.orm import Session
 import models
 import schemas
+from typing import List
 
 # Create the database
 Base.metadata.create_all(engine)
@@ -15,8 +16,8 @@ app = FastAPI()
 async def root():
     return "Hello World"
 
-@app.post("/todo", status_code=status.HTTP_201_CREATED)
-def create_todo(todo : schemas.ToDo):
+@app.post("/todo", response_model=schemas.ToDo, status_code=status.HTTP_201_CREATED)
+def create_todo(todo : schemas.ToDoCreate):
     # create a new database session
     session = Session(bind=engine, expire_on_commit=False)
 
@@ -26,9 +27,7 @@ def create_todo(todo : schemas.ToDo):
     # add it to the session and commit it
     session.add(tododb)
     session.commit()
-
-    # grab the id given to the object from the database
-    id = tododb.id
+    session.refresh(tododb)
 
     # close the session
     session.close()
@@ -93,7 +92,7 @@ def delete_todo(id: int):
 
     return None
 
-@app.get("/todo")
+@app.get("/todo", response_model=List[schemas.ToDo])
 def read_todo_list():
     # create a new database session
     session = Session(bind=engine, expire_on_commit=False)
