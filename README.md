@@ -7,6 +7,7 @@ pip install virtualenv
 > ./venv/Scripts/activate
 
 pip install fastapi
+pip install sqlalchemy
 
 # Start fastApi (On windows) 
 
